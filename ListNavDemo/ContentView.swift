@@ -15,8 +15,22 @@ struct ContentView: View {
                 ForEach(carStore.cars){car in
                     ListCell(car:car)
                 }
+                .onDelete(perform: deleteCar)
+                .onMove(perform: moveCar)
+                
             }
+            .navigationBarTitle("Car list")
+            .navigationBarItems(leading: NavigationLink( destination: AddNewCar(carStore: carStore)){
+                Text("Add")
+            }, trailing: EditButton())
         }
+    }
+    
+    func deleteCar(at offsets: IndexSet) {
+        carStore.cars.remove(atOffsets: offsets)
+    }
+    func moveCar(from source: IndexSet, to destination: Int) {
+        carStore.cars.move(fromOffsets: source, toOffset: destination)
     }
 }
 
